@@ -7,7 +7,7 @@
 ## INSTRUCTIONS TO RUN THE PROJECT:
 #### First, we download the code and put it in a folder:
 
-`cd path/to/the/folder`
+<span style="color:yellow">`cd path/to/the/folder`</span>.
 
 
 
