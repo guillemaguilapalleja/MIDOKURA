@@ -65,27 +65,27 @@
 ## In the crud.py file, we'll have the basic functions for running our project:
 
 
->`get_gallery_by_id`
+`get_gallery_by_id`
 
->`get_gallery_by_name`
+`get_gallery_by_name`
 
->`get_galleries`
+`get_galleries`
 
->`create_gallery`
+`create_gallery`
 
->`get_images`
+`get_images`
 
->`create_gallery_image`
+`create_gallery_image`
 
->`delete_gallery`
+`delete_gallery`
 
->`get_images_from_gallery`
+`get_images_from_gallery`
 
->`get_image_by_id`
+`get_image_by_id`
 
->`delete_image`
+`delete_image`
 
->`save_in_database`
+`save_in_database`
 
 ## In the models.py file, we'll have the models for our  database: a model for Gallery and a model for Image (with all of their attributes initialized).
 
