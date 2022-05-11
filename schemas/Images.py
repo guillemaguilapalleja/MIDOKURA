@@ -8,7 +8,7 @@ class ImageBase(BaseModel):
     location : str
     width : int
     height : int
-    file: Optional[bytes]
+    file: Optional[str]
 
 class ImageCreate(ImageBase):
     pass

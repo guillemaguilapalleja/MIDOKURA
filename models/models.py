@@ -1,5 +1,4 @@
-from typing import Optional
-from sqlalchemy import BLOB, Column, ForeignKey, Integer, String, BINARY
+from sqlalchemy import Column, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
 from database import Base
@@ -24,7 +23,7 @@ class Image(Base):
     location = Column(String, index=True)
     width = Column(Integer, index=True)
     height = Column(Integer, index=True)
-    file = Column(BINARY, index = True)
+    file = Column(String, index = True)
     gallery_id = Column(Integer, ForeignKey("galleries.id"))
 
     galleries = relationship("Gallery", back_populates="images")

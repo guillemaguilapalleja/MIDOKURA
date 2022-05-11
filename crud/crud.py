@@ -1,4 +1,4 @@
-from fastapi import File, HTTPException, UploadFile
+from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
 from models import models
@@ -40,8 +40,16 @@ def create_gallery_image(db: Session, image: Images.ImageCreate, gallery_id: int
 
 def delete_gallery(db: Session, gallery_id: int):
     db_to_delete = db.query(models.Gallery).filter(models.Gallery.id == gallery_id).first()
+    images_to_delete = db.query(models.Image).filter(models.Image.gallery_id == gallery_id).all()
+    
     if db_to_delete is None:
-        raise HTTPException(status_code=404, detail="Cannot delete this gallery because it doesnt exist")
+        raise HTTPException(status_code=400, detail="Can not delete this gallery because it does not exist...")
+    n: int = 0
+    
+    for n in range(len(images_to_delete)):
+        if images_to_delete[n].gallery_id == gallery_id:
+            db.delete(images_to_delete[n])
+            db.commit()
     db.delete(db_to_delete)
     db.commit()
     return db_to_delete
@@ -49,16 +57,17 @@ def delete_gallery(db: Session, gallery_id: int):
 def get_images_from_gallery(db: Session, gallery_id: int):
     gallery = db.query(models.Gallery).filter(models.Gallery.id == gallery_id).first()
     if gallery is None:
-        raise HTTPException(status_code=404, detail="Theres no gallery with that id")
+        raise HTTPException(status_code=404, detail="Can not retrieve images from the gallery"
+        " with ID " +str(gallery_id)+ " because there is no gallery with that id.")
     return gallery.images
 
 def get_image_by_id(db: Session, image_id: int, gallery_id: int):
     gallery = db.query(models.Gallery).filter(models.Gallery.id == gallery_id).first()
     if gallery is None:
-        raise HTTPException(status_code=404, detail="Theres no gallery with that id")
+        raise HTTPException(status_code=404, detail="There is no gallery with ID " +str(gallery_id)+ ".")
     image = db.query(models.Image).filter(models.Image.id == image_id).first()
     if image is None:
-        raise HTTPException(status_code=404, detail="Theres no image with that id in that gallery")
+        raise HTTPException(status_code=404, detail="There is no image with ID " +str(image_id)+ " in that gallery.")
     return image
 
 def delete_image(db: Session, gallery_id:str, image_id: int):
@@ -67,19 +76,8 @@ def delete_image(db: Session, gallery_id:str, image_id: int):
     db.commit()
     return image_from_gallery
 
-def upload_file(file: UploadFile, gallery_id: int, image_id: int, db: Session):
-    image = get_image_by_id(gallery_id=gallery_id, image_id=image_id, db=db)
-    if image.file is None:
-        image.file = file
-        db.refresh(image)
-        db.commit()
-        return image
-    raise HTTPException(status_code=400, detail="Can't upload the file attached to the image.")
-
-
-def see_file(gallery_id: int, image_id: int, db: Session):
-    image = get_image_by_id(gallery_id=gallery_id, image_id=image_id, db=db)
-    return image.file
+def save_in_database(db: Session):
+    db.commit()
 
 
 
