@@ -125,7 +125,7 @@
 #### At this endpoint, we can either see one gallery in particular or either delete it:
 > http://localhost:8000/docs/galleries/{gallery_id}/
 
-#### At this endpoint, we can either see our galleries or create one:
+#### At this endpoint, we can either create an image within a gallery or get the images from a gallery:
 > http://localhost:8000/docs/galleries/{gallery_id}/images/
 
 #### At this endpoint, we can create an image inside a certain gallery or we can either get the images inside a gallery:
