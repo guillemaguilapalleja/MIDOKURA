@@ -14,7 +14,6 @@ description = "A simple API to manage galleries and images whithin them."
 app = FastAPI(
     title="Guillem Aguila's FastAPI",
     description=description,
-    version="0.0.1",
     contact={
         "name": "Guillem Aguila i Palleja",
         "email": "guillem.aguila.palleja@estudiantat.upc.edu",
@@ -63,11 +62,11 @@ def delete_a_gallery(gallery_id: int, db: Session = Depends(get_db)):
     return "The gallery with ID " + str(gallery_id) + " has just been deleted."
     
 
-@app.post("/galleries/{gallery_id}/images/", response_model=str)
+@app.post("/galleries/{gallery_id}/images/", response_model=Images.Image)
 
-def create_image_for_gallery(gallery_id: int, image: Images.ImageBase, db: Session = Depends(get_db)):
+def create_image_for_gallery(gallery_id: int, image: Images.ImageCreate, db: Session = Depends(get_db)):
     FinalImage = crud.create_gallery_image(db=db, image=image, gallery_id=gallery_id)
-    return "The ID of the created image is " + str(FinalImage.id) + ""
+    return FinalImage
 
 
 @app.get("/galleries/{gallery_id}/images/", response_model=list[Images.Image])

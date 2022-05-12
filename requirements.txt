@@ -3,3 +3,4 @@ uvicorn==0.17.6
 SQLAlchemy==1.4.36
 PyMySQL==1.0.2
 python-multipart==0.0.5
+pytest==7.1.2

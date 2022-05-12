@@ -30,7 +30,7 @@ def get_images(db: Session):
     return db.query(models.Image).all()
 
 
-def create_gallery_image(db: Session, image: Images.ImageCreate, gallery_id: int):
+def create_gallery_image(db: Session, image: Images.ImageBase, gallery_id: int):
     db_image = models.Image(name=image.name, description=image.description,
     location=image.location, width=image.width, height=image.height, gallery_id=gallery_id)
     db.add(db_image)
