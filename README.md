@@ -113,7 +113,7 @@
 ## And then we have a bunch of different files:
 
 ### The file called *init.py* enables us to run the project.
-### The file called *database.py* is where the database is first created
+### The file called *database.py* is where the database is first created.
 ### The file called *Dockerfile* is the docker image that I've created to run this project.
 
 ### The file *main.py* is the application itself. It contains all the different endpoints and what do we do in each one of them. For our project, we have 5 different endpoints:
