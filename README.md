@@ -128,7 +128,7 @@
 #### At this endpoint, we can either create an image within a gallery or get the images from a gallery:
 > http://localhost:8000/docs/galleries/{gallery_id}/images/
 
-#### At this endpoint, we can create an image inside a certain gallery or we can either get the images inside a gallery:
+#### At this endpoint, we can delete an image from a certain gallery or we can either get a certain image inside that gallery:
 > http://localhost:8000/docs/galleries/{gallery_id}/images/{image_id}
 
 #### At this endpoint, we can attatch a file to an image or either get the file attatch to that image:
