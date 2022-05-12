@@ -31,6 +31,9 @@ def get_images(db: Session):
 
 
 def create_gallery_image(db: Session, image: Images.ImageBase, gallery_id: int):
+    gallery = db.query(models.Gallery).filter(models.Gallery.id == gallery_id).first()
+    if gallery is None:
+        raise HTTPException(status_code=400, detail="Can not create image in this gallery because it does not exist...")
     db_image = models.Image(name=image.name, description=image.description,
     location=image.location, width=image.width, height=image.height, gallery_id=gallery_id)
     db.add(db_image)
@@ -70,7 +73,7 @@ def get_image_by_id(db: Session, image_id: int, gallery_id: int):
         raise HTTPException(status_code=404, detail="There is no image with ID " +str(image_id)+ " in that gallery.")
     return image
 
-def delete_image(db: Session, gallery_id:str, image_id: int):
+def delete_image(db: Session, gallery_id: int, image_id: str):
     image_from_gallery = get_image_by_id(db=db, image_id=image_id, gallery_id=gallery_id)
     db.delete(image_from_gallery)
     db.commit()

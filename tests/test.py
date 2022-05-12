@@ -31,46 +31,71 @@ app.dependency_overrides[get_db] = override_get_db
 
 client = TestClient(app)
 
+def test():
 
-def test_create_gallery():
+    #CREATE GALLERY
+
     response = client.post(
         "/galleries/",
-        json={"name": "TestGallery9", "description": "TestGallery"},
+        json={"name": "TestGallery", "description": "TestGallery"},
     )
 
-   
     assert response.status_code == 200, response.text
     data = response.json()
-    assert data["name"] == "TestGallery9"
+    assert data["name"] == "TestGallery"
     assert "id" in data
     gallery_id = data["id"]
 
     response = client.get(f"/galleries/{gallery_id}")
     assert response.status_code == 200, response.text
     data = response.json()
-    assert data["name"] == "TestGallery9"
+    assert data["name"] == "TestGallery"
     assert data["id"] == gallery_id
 
+    #CREATE IMAGE FOR GALLERY
 
     response = client.post(
         f"/galleries/{gallery_id}/images/",
-        json={"name": "Image1", "description": "Image1", "location": "Image1", "width": 1, "height": 1, "gallery_id": 1},
+        json={"name": "Image1", "description": "Image1", "location": "Image1", "width": 1, "height": 1, "gallery_id": gallery_id},
     )
 
     assert response.status_code == 200, response.text
     data = response.json()
-    assert data["name"] == "Image1"
     assert "id" in data
     image_id = data["id"]
-    gallery_id = data["gallery_id"]
 
 
     response = client.get(f"/galleries/{gallery_id}/images/{image_id}/")
     assert response.status_code == 200, response.text
     data = response.json()
-    assert data["name"] == "Image1"
     assert data["id"] == image_id
     assert data["gallery_id"] == gallery_id
 
+
+    #DELETE IMAGE FROM GALLERY
+
+    response = client.delete(f"/galleries/{gallery_id}/images/{image_id}/")
+
+    assert response.status_code == 200, response.text
+    data = response.json()
+    assert "id" in data
+    image_id = data["id"]
+
+    response = client.get(f"/galleries/{gallery_id}/images/{image_id}/")
+    assert response.status_code == 404, response.text
+
+    #DELETE A GALLERY
+
+
+    response = client.delete(f"/galleries/{gallery_id}/")
+
+    assert response.status_code == 200, response.text
+    data = response.json()
+    assert "id" in data
+    gallery_id = data["id"]
+
+
+    response = client.get(f"/galleries/{gallery_id}/")
+    assert response.status_code == 404, response.text
 
 

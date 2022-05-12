@@ -55,18 +55,18 @@ def read_gallery(gallery_id: int, db: Session = Depends(get_db)):
     return db_gallery
 
 
-@app.delete("/galleries/{gallery_id}/", response_model=str)
+@app.delete("/galleries/{gallery_id}/", response_model=dict)
 
 def delete_a_gallery(gallery_id: int, db: Session = Depends(get_db)):
     crud.delete_gallery(db, gallery_id=gallery_id)
-    return "The gallery with ID " + str(gallery_id) + " has just been deleted."
+    return {"id": gallery_id}
     
 
-@app.post("/galleries/{gallery_id}/images/", response_model=Images.Image)
+@app.post("/galleries/{gallery_id}/images/", response_model=dict)
 
-def create_image_for_gallery(gallery_id: int, image: Images.ImageCreate, db: Session = Depends(get_db)):
+def create_image_for_gallery(gallery_id: int, image: Images.ImageBase, db: Session = Depends(get_db)):
     FinalImage = crud.create_gallery_image(db=db, image=image, gallery_id=gallery_id)
-    return FinalImage
+    return {"id": FinalImage.id}
 
 
 @app.get("/galleries/{gallery_id}/images/", response_model=list[Images.Image])
@@ -76,24 +76,21 @@ def read_image(gallery_id: int, db: Session = Depends(get_db)):
     return images
 
 
-@app.get("/galleries/{gallery_id}/images/{image_id}",response_model=Images.Image)
+@app.get("/galleries/{gallery_id}/images/{image_id}/",response_model=Images.Image)
 
 def get_image(gallery_id: int, image_id: int, db: Session = Depends(get_db)):
     image = crud.get_image_by_id(db=db,image_id=image_id, gallery_id=gallery_id)
     return image
 
 
-@app.delete("/galleries/{gallery_id}/images/{image_id}", response_model=str)
+@app.delete("/galleries/{gallery_id}/images/{image_id}/", response_model=dict)
 
 def delete_an_image(gallery_id: int, image_id: int, db: Session = Depends(get_db)):
-    crud.delete_image(db, image_id=image_id, gallery_id=gallery_id)
-
-    response = "The image with ID " + str(image_id) + " in the gallery with ID " + str(gallery_id) + " has just been deleted."
-
-    return response
+    image_id = crud.delete_image(db, image_id=image_id, gallery_id=gallery_id)
+    return {"id": image_id.id}
 
 
-@app.post("/galleries/{gallery_id}/images/{image_id}/file", response_model=Images.Image)
+@app.post("/galleries/{gallery_id}/images/{image_id}/file/", response_model=Images.Image)
 
 async def upload_a_file(gallery_id: int, image_id: int, db: Session = Depends(get_db), file: UploadFile = File(...)):
     image = get_image(gallery_id=gallery_id, image_id=image_id, db=db)
@@ -106,7 +103,7 @@ async def upload_a_file(gallery_id: int, image_id: int, db: Session = Depends(ge
     return image
 
 
-@app.get("/galleries/{gallery_id}/images/{image_id}/file", response_model=str)
+@app.get("/galleries/{gallery_id}/images/{image_id}/file/", response_model=str)
 
 def see_a_file(gallery_id: int, image_id: int, db: Session = Depends(get_db)):
     image = get_image(gallery_id=gallery_id, image_id=image_id, db=db)
