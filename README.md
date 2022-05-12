@@ -47,6 +47,7 @@
 * And finally we delete that gallery.
 ### Now we have runned the tests and we saw that everything works fine. Now we have to run the project by means of one of the two ways specified before the "INSTRUCTIONS TO RUN THE TEST" section.
 
+**NOTE:** If we want to run our tests, we can not use the docker image because it is not specified in it to run the tests, it is only specified to run the project itself. If we want to first run the test and then run the project with the docker image, we have to run the tests first, then build the docker image and then we will have our project running.
 
 ---
 ## **Now our project is running!**
