@@ -61,7 +61,7 @@
 
 
 
-## **As seen so far, we have 4 folders and 7 files:**
+## **As seen so far, we have 5 folders and 7 files:**
 
 
 | Folders | Files |
